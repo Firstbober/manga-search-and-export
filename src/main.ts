@@ -29,11 +29,11 @@ class MangaDex {
 
     const resp = await axios({
       method: 'GET',
-      url: `${this.baseUrl}/manga`,
+      url: `${this.baseUrl}/manga?limit=10`,
       params: {
         title: title,
         originalLanguage: ['ja']
-      }
+      },
     });
 
     let current = resp.data.data.length;
@@ -48,13 +48,13 @@ class MangaDex {
 
       const resp = await axios({
         method: 'GET',
-        url: `${this.baseUrl}/manga`,
+        url: `${this.baseUrl}/manga?limit=10`,
         params: {
           title: title,
           offset: offset,
           limit: 100,
           originalLanguage: ['ja']
-        }
+        },
       });
 
       current += resp.data.data.length;
@@ -77,12 +77,12 @@ class MangaDex {
 
     const resp = await axios({
       method: 'GET',
-      url: `${this.baseUrl}/manga`,
+      url: `${this.baseUrl}/manga?limit=10`,
       params: {
         includedTags: includes,
         excludedTags: excludes,
         originalLanguage: ['ja']
-      }
+      },
     });
 
     let current = resp.data.data.length;
@@ -97,13 +97,12 @@ class MangaDex {
 
       const resp = await axios({
         method: 'GET',
-        url: `${this.baseUrl}/manga`,
+        url: `${this.baseUrl}/manga?limit=100`,
         params: {
           includedTags: includes,
           excludedTags: excludes,
-          limit: 100,
           originalLanguage: ['ja']
-        }
+        },
       });
 
       current += resp.data.data.length;
