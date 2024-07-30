@@ -13,9 +13,22 @@ class MangaDex {
 
     const tags = await axios(`${this.baseUrl}/manga/tag`);
     let selectHtml = '<option value="none">none</option>\n';
+
+    let tagArrays = [];
+
     for (const tag of tags.data.data) {
-      selectHtml += `<option value="${tag.id}">${tag.attributes.name.en}</option>\n`;
+      tagArrays.push([tag.id, tag.attributes.name.en]);
     }
+    tagArrays = tagArrays.sort((a, b) => {
+      if (a[1].toLowerCase() < b[1].toLowerCase()) return -1;
+      if (a[1].toLowerCase() > b[1].toLowerCase()) return 1;
+      return 0;
+    })
+
+    for(const tag of tagArrays) {
+      selectHtml += `<option value="${tag[0]}">${tag[1]}</option>\n`;
+    }
+
     document.getElementById('includes-tag')!.innerHTML = selectHtml;
     document.getElementById('excludes-tag')!.innerHTML = selectHtml;
   }
