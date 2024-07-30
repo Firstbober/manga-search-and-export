@@ -15,6 +15,8 @@ class MangaDex implements Engine {
   results_mDex: any[] = [];
 
   async setTags() {
+    this.results_mDex = []
+
     await sleep(200);
 
     const tags = await axios(`${this.baseUrl}/manga/tag`);
@@ -39,6 +41,8 @@ class MangaDex implements Engine {
     document.getElementById('excludes-tag')!.innerHTML = selectHtml;
   }
   async searchByTitle(title: string) {
+    this.results_mDex = []
+
     if(title.trim().length == 0) {
       document.getElementById("info")!.innerText = `You need to write title to search it!`;
       return;
@@ -87,6 +91,8 @@ class MangaDex implements Engine {
     document.getElementById("info")!.innerHTML = `<span style="font-size: 2em; color: yellow;">ready to export! (title: ${title})</span>`;
   }
   async searchByTags(includes: string[], excludes: string[]) {
+    this.results_mDex = []
+
     if(includes.length == 0 && excludes.length == 0) {
       document.getElementById("info")!.innerText = `At least one tag must be selected!`;
       return;
@@ -127,12 +133,12 @@ class MangaDex implements Engine {
       current += resp.data.data.length;
       offset += resp.data.data.length;
 
-      document.getElementById("info")!.innerText = `Fetching by tags... ${current}/${total} (f5 to stop) (incl: ${includes}, excl: ${excludes})`;
+      document.getElementById("info")!.innerText = `Fetching by tags... ${current}/${total} (f5 to stop) (incl: ${includes.length}, excl: ${excludes.length})`;
       this.results_mDex = [...this.results_mDex, ...resp.data.data];
     }
 
     console.log(this.results_mDex);
-    document.getElementById("info")!.innerHTML = `<span style="font-size: 2em; color: yellow;">ready to export! (incl: ${includes}, excl: ${excludes})</span>`;
+    document.getElementById("info")!.innerHTML = `<span style="font-size: 2em; color: yellow;">ready to export! (incl: ${includes.length}, excl: ${excludes.length})</span>`;
   }
   async exportToCSV() {
     if(this.results_mDex.length == 0) {
@@ -250,6 +256,7 @@ class MangaUpdates implements Engine {
     // document.getElementById("info")!.innerHTML = `<span style="font-size: 2em; color: yellow;">ready to export! (title: ${title})</span>`;
   }
   async searchByTags(includes: string[], excludes: string[]) {
+    this.results_mDex = []
     if(includes.length == 0 && excludes.length == 0) {
       document.getElementById("info")!.innerText = `At least one tag must be selected!`;
       return;
