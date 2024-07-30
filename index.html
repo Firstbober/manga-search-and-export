@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manga Search And Export</title>
+</head>
+
+<body>
+  <div id="app">
+    <!-- <h2>Select service & search to export</h2> -->
+    <h2>Search and click to export</h2>
+    <div style="display: flex; justify-content: space-evenly;">
+      <label>
+        MangaDex
+        <input type="radio" name="engine" class="select-engine" value="mangadex" checked>
+      </label>
+      <!-- <label>
+        MangaUpdates
+        <input type="radio" name="engine" class="select-engine" value="mangaupdates">
+      </label> -->
+    </div>
+    <hr>
+    <div style="margin-top: 1em;">
+      by title:
+      <input type="text" name="search" id="search" placeholder="title">
+      <button id="search-by-title">search</button>
+    </div>
+    <hr>
+
+    <div style="margin-top: 1em;">
+      <p>
+        includes tag (use ctrl[windows] or command[mac] to select multiple):
+      </p>
+      <select id="includes-tag" multiple style="width: 100%; height: 12em;">
+        <option value="none">none</option>
+      </select>
+
+      <p>excludes tag (use ctrl[windows] or command[mac] to select multiple):</p>
+      <select id="excludes-tag" multiple style="width: 100%; height: 12em;">
+        <option value="none">none</option>
+      </select>
+      <br> <br>
+
+      <button id="search-by-tags">search</button>
+    </div>
+    <hr>
+    <button id="export-to-csv">export to csv</button>
+    <br>
+    <br>
+    <span id="info">waiting for input...</span>
+  </div>
+  <script type="module" src="/src/main.ts"></script>
+</body>
+
+</html>
