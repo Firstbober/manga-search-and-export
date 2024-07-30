@@ -6,7 +6,7 @@ let results_mDex: any[] = [];
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 class MangaDex {
-  baseUrl = 'https://api.mangadex.org';
+  baseUrl = 'https://corsproxy.io/?https://api.mangadex.org';
 
   async setTags() {
     await sleep(200);
