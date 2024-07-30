@@ -37,7 +37,6 @@ class MangaDex {
     });
 
     let current = resp.data.data.length;
-    let limit = resp.data.limit;
     let total = resp.data.total;
     let offset = resp.data.offset;
 
@@ -87,7 +86,6 @@ class MangaDex {
     });
 
     let current = resp.data.data.length;
-    let limit = resp.data.limit;
     let total = resp.data.total;
     let offset = resp.data.offset;
 
@@ -162,7 +160,7 @@ for (const el of document.getElementsByClassName("select-engine")) {
 
 engine.setTags();
 
-document.getElementById("search-by-title")?.addEventListener("click", async (ev) => {
+document.getElementById("search-by-title")?.addEventListener("click", async () => {
   await engine.searchByTitle((document.getElementById("search")! as HTMLInputElement).value);
 });
 document.getElementById("search-by-tags")?.addEventListener("click", async () => {
