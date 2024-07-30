@@ -136,6 +136,8 @@ class MangaDex {
       csv_lines.push(`"${title.replaceAll("\"", "\"\"")}",${year_of_publication == null ? 0 : year_of_publication},"${tags.join(', ')}","${link}"`);
     }
 
+    csv_lines = [...new Set(csv_lines)];
+
     var element = document.createElement('a');
     element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(csv_lines.join('\n')));
     element.setAttribute('download', 'results.csv');
