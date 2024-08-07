@@ -33,7 +33,7 @@ class MangaDex implements Engine {
       return 0;
     })
 
-    for(const tag of tagArrays) {
+    for (const tag of tagArrays) {
       selectHtml += `<option value="${tag[0]}">${tag[1]}</option>\n`;
     }
 
@@ -43,7 +43,7 @@ class MangaDex implements Engine {
   async searchByTitle(title: string) {
     this.results_mDex = []
 
-    if(title.trim().length == 0) {
+    if (title.trim().length == 0) {
       document.getElementById("info")!.innerText = `You need to write title to search it!`;
       return;
     }
@@ -66,7 +66,7 @@ class MangaDex implements Engine {
     document.getElementById("info")!.innerText = `Fetching by text... ${current}/${total}  (f5 to stop) (title: ${title})`;
 
     this.results_mDex = [...this.results_mDex, ...resp.data.data];
-    while(current < total) {
+    while (current < total) {
       await sleep(300);
 
       const resp = await axios({
@@ -93,7 +93,7 @@ class MangaDex implements Engine {
   async searchByTags(includes: string[], excludes: string[]) {
     this.results_mDex = []
 
-    if(includes.length == 0 && excludes.length == 0) {
+    if (includes.length == 0 && excludes.length == 0) {
       document.getElementById("info")!.innerText = `At least one tag must be selected!`;
       return;
     }
@@ -117,7 +117,7 @@ class MangaDex implements Engine {
     document.getElementById("info")!.innerText = `Fetching by tags... ${current}/${total} (f5 to stop) (incl: ${includes}, excl: ${excludes})`;
 
     this.results_mDex = [...this.results_mDex, ...resp.data.data];
-    while(current < total) {
+    while (current < total) {
       await sleep(300);
 
       const resp = await axios({
@@ -141,26 +141,26 @@ class MangaDex implements Engine {
     document.getElementById("info")!.innerHTML = `<span style="font-size: 2em; color: yellow;">ready to export! (incl: ${includes.length}, excl: ${excludes.length})</span>`;
   }
   async exportToCSV() {
-    if(this.results_mDex.length == 0) {
+    if (this.results_mDex.length == 0) {
       document.getElementById("info")!.innerHTML = `<span style="font-size: 2em; color: red;">There are no results!</span>`;
     };
 
     let csv_lines: string[] = [
-      'title,year,tags,link'
+      'title,year,tags,link,availableTranslatedLanguages'
     ];
-    for(const manga of this.results_mDex) {
-      if(manga.attributes.availableTranslatedLanguages.includes("en")) continue;
+    for (const manga of this.results_mDex) {
+      // if(manga.attributes.availableTranslatedLanguages.includes("en")) continue;
 
       let title: string = manga.attributes.title.en;
       let tags: string[] = [];
       let link = `https://mangadex.org/title/${manga.id}`;
       let year_of_publication = manga.attributes.year;
 
-      for(const tag of manga.attributes.tags) {
+      for (const tag of manga.attributes.tags) {
         tags.push(tag.attributes.name.en);
       }
 
-      csv_lines.push(`"${title.replaceAll("\"", "\"\"")}",${year_of_publication == null ? 0 : year_of_publication},"${tags.join(', ')}","${link}"`);
+      csv_lines.push(`"${title.replaceAll("\"", "\"\"")}",${year_of_publication == null ? 0 : year_of_publication},"${tags.join(', ')}","${link}","${manga.attributes.availableTranslatedLanguages.join(", ")}"`);
     }
 
     csv_lines = [...new Set(csv_lines)];
@@ -201,7 +201,7 @@ class MangaUpdates implements Engine {
       return 0;
     })
 
-    for(const tag of tagArrays) {
+    for (const tag of tagArrays) {
       selectHtml += `<option value="${tag[0]}">${tag[1]}</option>\n`;
     }
 
@@ -209,7 +209,7 @@ class MangaUpdates implements Engine {
     document.getElementById('excludes-tag')!.innerHTML = selectHtml;
   }
   async searchByTitle(title: string) {
-    if(title.trim().length == 0) {
+    if (title.trim().length == 0) {
       document.getElementById("info")!.innerText = `You need to write title to search it!`;
       return;
     }
@@ -257,7 +257,7 @@ class MangaUpdates implements Engine {
   }
   async searchByTags(includes: string[], excludes: string[]) {
     this.results_mDex = []
-    if(includes.length == 0 && excludes.length == 0) {
+    if (includes.length == 0 && excludes.length == 0) {
       document.getElementById("info")!.innerText = `At least one tag must be selected!`;
       return;
     }
@@ -275,7 +275,7 @@ class MangaUpdates implements Engine {
     document.getElementById("info")!.innerText = `Fetching by tags... ${current}/${total} (f5 to stop) (incl: ${includes}, excl: ${excludes})`;
 
     this.results_mDex = [...this.results_mDex, ...resp.data.data];
-    while(current < total) {
+    while (current < total) {
       await sleep(300);
 
       const resp = await axios({
@@ -299,22 +299,22 @@ class MangaUpdates implements Engine {
     document.getElementById("info")!.innerHTML = `<span style="font-size: 2em; color: yellow;">ready to export! (incl: ${includes}, excl: ${excludes})</span>`;
   }
   async exportToCSV() {
-    if(this.results_mDex.length == 0) {
+    if (this.results_mDex.length == 0) {
       document.getElementById("info")!.innerHTML = `<span style="font-size: 2em; color: red;">There are no results!</span>`;
     };
 
     let csv_lines: string[] = [
       'title,year,tags,link'
     ];
-    for(const manga of this.results_mDex) {
-      if(manga.attributes.availableTranslatedLanguages.includes("en")) continue;
+    for (const manga of this.results_mDex) {
+      if (manga.attributes.availableTranslatedLanguages.includes("en")) continue;
 
       let title: string = manga.attributes.title.en;
       let tags: string[] = [];
       let link = `https://mangadex.org/title/${manga.id}`;
       let year_of_publication = manga.attributes.year;
 
-      for(const tag of manga.attributes.tags) {
+      for (const tag of manga.attributes.tags) {
         tags.push(tag.attributes.name.en);
       }
 
@@ -341,13 +341,13 @@ let engine = new MangaDex();
 for (const el of document.getElementsByClassName("select-engine")) {
   el.addEventListener("change", (value) => {
     console.log((value.target as HTMLInputElement).value)
-    if((value.target as HTMLInputElement).value == "mangaupdates") {
+    if ((value.target as HTMLInputElement).value == "mangaupdates") {
       engine = new MangaUpdates()
       engine.setTags();
     } else {
       engine = new MangaDex();
       engine.setTags();
-    } 
+    }
   })
 }
 
@@ -363,12 +363,12 @@ document.getElementById("search-by-tags")?.addEventListener("click", async () =>
   let included: string[] = [];
   let excluded: string[] = [];
 
-  for(const opt of includedOptions) {
-    if(opt.value != "none")
+  for (const opt of includedOptions) {
+    if (opt.value != "none")
       included.push(opt.value);
   }
-  for(const opt of excludedOptions) {
-    if(opt.value != "none")
+  for (const opt of excludedOptions) {
+    if (opt.value != "none")
       excluded.push(opt.value);
   }
 
